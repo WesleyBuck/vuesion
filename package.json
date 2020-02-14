@@ -30,7 +30,6 @@
     "generate": "vuesion generate",
     "add": "vuesion add",
     "extract-i18n-messages": "vuesion extract-i18n-messages",
-    "test": "vuesion test --coverage",
     "e2e": "vuesion e2e",
     "lint": "vuesion lint",
     "clean": "vuesion clean",
@@ -45,9 +44,7 @@
     "build:analyze": "vuesion build --analyze",
     "build:spa": "vuesion build --spa",
     "start": "node ./dist/server/server.js",
-    "e2e:ci": "npx start-server-and-test dev http://localhost:3000 e2e",
-    "ci": "vuesion parallel \"npm run lint\" \"npm run test -- --runInBand\" \"npm run e2e:ci\" && npm run build:spa",
-    "postci": "vuesion parallel \"npm run build\" \"npm run storybook:build\""
+    "e2e:ci": "npx start-server-and-test dev http://localhost:3000 e2e"
   },
   "dependencies": {
     "@vuesion/addon-vuex-persist": "^3.1.2",
@@ -67,11 +64,13 @@
     "lodash": "4.17.15",
     "lru-cache": "5.1.1",
     "marked": "0.7.0",
+    "reflect-metadata": "0.1.13",
     "serve-favicon": "2.5.0",
     "vee-validate": "2.0.9",
     "vue": "^2.6.10",
     "vue-i18n": "8.14.1",
     "vue-meta": "2.3.1",
+    "vue-property-decorator": "8.4.0",
     "vue-router": "^3.1.3",
     "vue-server-renderer": "^2.6.10",
     "vuex": "^3.1.1",
@@ -108,8 +107,6 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
-      "pre-commit": "vuesion parallel \"vuesion prettier --staged\" \"npm run lint\" \"npm run test\""
     }
   },
   "jest": {

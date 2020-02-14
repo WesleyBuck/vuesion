@@ -6,6 +6,7 @@ import { VuexPersist } from '@vuesion/addon-vuex-persist';
 import { PersistCookieStorage } from '@vuesion/addon-vuex-persist/dist/PersistCookieStorage';
 import { AppModule } from './app/module';
 import { AuthModule } from '@shared/modules/auth/module';
+import moment from 'moment';
 
 Vue.use(Vuex);
 

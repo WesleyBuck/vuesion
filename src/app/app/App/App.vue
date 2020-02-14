@@ -49,6 +49,11 @@
           <vue-icon-hashtag />
           Form Example
         </vue-sidebar-group-item>
+
+        <vue-sidebar-group-item :to="{ name: 'chat' }">
+          <vue-icon-hashtag />
+          Chat Example
+        </vue-sidebar-group-item>
       </vue-sidebar-group>
 
       <vue-sidebar-group title="Documentation">

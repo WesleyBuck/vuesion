@@ -1,0 +1,80 @@
+<div class="chat">
+  <vue-grid>
+    <vue-breadcrumb :items="[{ label: 'Home', href: '/' }, { label: 'Chat Example' }]" />
+
+    <vue-grid-row>
+      <vue-grid-item>
+        <vue-headline level="1">Chat Example</vue-headline>
+        <div
+          class="quick-chat-container"
+          :style="{'border-bottom-left-radius': borderStyle.bottomLeft, 'border-bottom-right-radius': borderStyle.bottomRight, 'border-top-right-radius': borderStyle.topRight, 'border-top-left-radius': borderStyle.topLeft}"
+        >
+          <!--
+            Header
+          -->
+          <div class="header-container" :style="{background: colors.header.bg}">
+            <slot
+              name="header"
+              :colors="colors"
+              :chatTitle="chatTitle"
+              :participants="participants"
+              :myself="myself"
+            ></slot>
+            <div v-if="!hasHeaderSlot" class="header-title">
+              <p class="header-title-text" :style="{color: colors.header.text}">{{chatTitle}}</p>
+              <p class="header-paticipants-text">
+                <span>{{myself.name}}, </span>
+                <span v-for="(participant, index) in participants" :key="participant.id"
+                  >{{participant.name}}{{participants.length - index - 1 ? ', ' : ''}}</span
+                >
+              </p>
+            </div>
+
+            <div v-if="!hideCloseButton && !hasHeaderSlot" class="header-exit">
+              <slot name="close-button" :onClose="onClose">
+                <a class="header-exit-button" href="#" :style="{fontSize: closeButtonIconSize}" @click.prevent="onClose"
+                  >✕</a
+                >
+              </slot>
+            </div>
+          </div>
+          <!--
+            Message Display container
+            {{message.timestamp.format('LT')}}
+          -->
+          <div
+            ref="containerMessageDisplay"
+            :style="{background: colors.message.messagesDisplay.bg}"
+            class="container-message-display"
+            @scroll="updateScrollState"
+          >
+            <div v-if="loading" class="loader">
+              <div class="message-loading"></div>
+            </div>
+            <div
+              v-for="(message, index) in messages"
+              :key="index"
+              class="message-container"
+              :class="{'my-message': message.myself, 'other-message': !message.myself}"
+            >
+              <div
+                class="message-text"
+                :style="{background: !message.myself?colors.message.others.bg: colors.message.myself.bg, color: !message.myself?colors.message.others.text: colors.message.myself.text}"
+              >
+                <p v-if="!message.myself" class="message-username">
+                  {{getParticipantById(message.participantId).name}}
+                </p>
+                <p v-else class="message-username">{{myself.name}}</p>
+                <p>{{message.content}}</p>
+              </div>
+              <div class="message-timestamp" :style="{'justify-content': message.myself?'flex-end':'baseline'}">
+                <v-feather-icon v-if="asyncMode && message.uploaded" name="check" base-class="icon-sent" />
+                <div v-else-if="asyncMode" class="message-loading"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </vue-grid-item>
+    </vue-grid-row>
+  </vue-grid>
+</div>
