@@ -7,7 +7,7 @@ import 'reflect-metadata';
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { registerModule } from '@/app/store';
 import { ChatModule } from '../module';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { IPreLoad } from '@/server/isomorphic';
 
 @Component({
@@ -124,12 +124,17 @@ export default class Chat extends Vue {
     },
   ];
 
+  methods() {
+    mapActions('chat', ['getParticipantById']);
+  }
+
   public beforeCreate() {
     registerModule('chat', ChatModule);
   }
 
   public prefetch(options: IPreLoad) {
     registerModule('chat', ChatModule);
+    return options.store.dispatch('chat/getParticipantById');
   }
 
   public filteredSelectedItems() {
